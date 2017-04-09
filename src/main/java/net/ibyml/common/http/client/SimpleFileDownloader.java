@@ -2,6 +2,7 @@ package net.ibyml.common.http.client;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -21,9 +22,6 @@ public class SimpleFileDownloader implements FileDownloader {
 	private HttpRequestProcessor httpRequestProcessor;
 	private URIBuilder uriBuilder;
 
-	// 下载文件存放位置
-	private static String homeLocation = ".";
-
 	public SimpleFileDownloader(FileDownloadSetting setting) throws URISyntaxException {
 		this(setting, null, null);
 	}
@@ -40,17 +38,9 @@ public class SimpleFileDownloader implements FileDownloader {
 		uriBuilder = new URIBuilder(setting.getUrl());
 	}
 
-	public static String getHomeLocation() {
-		return homeLocation;
-	}
-
-	public static void setHomeLocation(String homeLocation) {
-		SimpleFileDownloader.homeLocation = homeLocation;
-	}
-
 	public void download() {
 		if (uriBuilder == null) {
-
+			throw new RuntimeException("uriBuilder null");
 		} else {
 			try {
 				if (uriBuilderProcessor != null) {
@@ -63,33 +53,12 @@ public class SimpleFileDownloader implements FileDownloader {
 				}
 
 				CloseableHttpClient httpclient = HttpClients.createDefault();
-
 				CloseableHttpResponse response = httpclient.execute(httpget);
 
-				String dirLocation = setting.getDirLocation();
-				String fileLocation = homeLocation + File.separator + dirLocation;
-
-				File fileLocaltionDir = new File(fileLocation);
-				if (!fileLocaltionDir.exists()) {
-					fileLocaltionDir.mkdirs();
-				}
-
-				String fileName = setting.getFileName();
-				if (fileName == null) {
-					fileName = getFileName(response);
-				} else if (fileName.lastIndexOf(".") == -1) {
-					fileName += getFileNameExtension(response);
-				}
-
-				String fullFileName = fileLocation + File.separator + fileName;
-				OutputStream os = new FileOutputStream(fullFileName);
-				response.getEntity().writeTo(os);
-		 
-				os.flush();
-				os.close();
-
-				System.out.println(response.getFirstHeader("Content-type").getValue());
-				System.out.println("________________________________fullFileName:" + fullFileName);				
+				mm(response);
+				
+				response.close();
+				httpclient.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -97,7 +66,34 @@ public class SimpleFileDownloader implements FileDownloader {
 
 	}
 
-	protected String getFileNameExtension(HttpResponse response) {
+	public void mm(HttpResponse response) throws IOException {
+		String dirLocation = setting.getDirLocation();
+		String fileLocation = GlobalSetting.getDownloadFileHomeLocation() + File.separator + dirLocation;
+
+		File fileLocaltionDir = new File(fileLocation);
+		if (!fileLocaltionDir.exists()) {
+			fileLocaltionDir.mkdirs();
+		}
+
+		String fileName = setting.getFileName();
+		if (fileName == null) {
+			fileName = getFileName(response);
+		} else if (fileName.lastIndexOf(".") == -1) {
+			fileName += getFileNameExtension(response);
+		}
+
+		String fullFileName = fileLocation + File.separator + fileName;
+		OutputStream os = new FileOutputStream(fullFileName);
+		response.getEntity().writeTo(os);
+
+		os.flush();
+		os.close();
+
+		System.out.println(response.getFirstHeader("Content-type").getValue());
+		System.out.println("________________________________fullFileName:" + fullFileName);
+	}
+
+	public String getFileNameExtension(HttpResponse response) {
 		Header headerContentDisposition = response.getFirstHeader("Content-Disposition");
 		if (headerContentDisposition != null) {
 			return getFileNameExtension(headerContentDisposition.getValue());
@@ -115,7 +111,7 @@ public class SimpleFileDownloader implements FileDownloader {
 		}
 	}
 
-	protected String getFileName(HttpResponse response) {
+	public String getFileName(HttpResponse response) {
 		Header headerContentDisposition = response.getFirstHeader("Content-Disposition");
 		if (headerContentDisposition != null) {
 			return getFileName(headerContentDisposition.getValue());

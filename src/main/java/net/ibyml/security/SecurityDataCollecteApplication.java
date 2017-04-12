@@ -3,12 +3,8 @@ package net.ibyml.security;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import org.quartz.CronScheduleBuilder;
@@ -24,15 +20,9 @@ import net.ibyml.security.job.szse.SzseZqhqCollectJob;
 
 public class SecurityDataCollecteApplication {
 	public static void main(String[] args) {
-		Properties configProperties = new Properties();
-		FileInputStream fis;
 		try {
-			URI uri = ClassLoader.getSystemResource("config.properties").toURI();
-			fis = new FileInputStream(new File(uri));
-
-			configProperties.load(fis);
-
-			GlobalSetting.setDownloadFileHomeLocation(configProperties.getProperty("download.file.location"));			
+			Properties configProperties = loadPropertiesFile("config.properties");
+			GlobalSetting.setDownloadFileHomeLocation(configProperties.getProperty("download.file.location"));
 
 			String shCron;
 			String szCron;
@@ -58,20 +48,26 @@ public class SecurityDataCollecteApplication {
 			m1(scheduler, shCron);
 			m2(scheduler, szCron);
 
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+	}
+
+	public static Properties loadPropertiesFile(String fileName) {
+		Properties prop = new Properties();
+
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		InputStream inStream = classLoader.getResourceAsStream(fileName);
+		if (null != inStream) {
+			try {
+				prop.load(inStream);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return prop;
 	}
 
 	private static void m1(Scheduler scheduler, String shCron) throws SchedulerException {

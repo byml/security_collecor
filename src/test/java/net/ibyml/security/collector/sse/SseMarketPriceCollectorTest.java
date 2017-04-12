@@ -1,12 +1,12 @@
-package net.ibyml.collector.sse;
+package net.ibyml.security.collector.sse;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import net.ibyml.collector.sse.SseMarketPriceCollector;
 import net.ibyml.common.http.client.FileDownloadSetting;
 import net.ibyml.common.http.client.GlobalSetting;
 import net.ibyml.common.http.client.SimpleFileDownloadSetting;
+import net.ibyml.security.collector.sse.SseMarketPriceCollector;
 
 public class SseMarketPriceCollectorTest {
 	@Before

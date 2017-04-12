@@ -1,4 +1,4 @@
-package net.ibyml.collector.sse;
+package net.ibyml.security.collector.sse;
 
 import java.io.File;
 import java.io.FileOutputStream;

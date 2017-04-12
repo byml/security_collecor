@@ -4,7 +4,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import net.ibyml.collector.szse.SzseZqhqCollector;
+import net.ibyml.security.collector.szse.SzseZqhqCollector;
 
 public class SzseZqhqCollectJob implements Job {
 	private SzseZqhqCollector collector;

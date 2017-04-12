@@ -6,7 +6,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import net.ibyml.collector.szse.SzseZqhqHistoryProcessor;
+import net.ibyml.security.collector.szse.SzseZqhqHistoryProcessor;
 
 public class SimpleFileDownloaderTest {
 	@Before

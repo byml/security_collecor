@@ -1,4 +1,4 @@
-package net.ibyml.collector.szse;
+package net.ibyml.security.collector.szse;
 
 import net.ibyml.common.http.client.FileDownloadSetting;
 

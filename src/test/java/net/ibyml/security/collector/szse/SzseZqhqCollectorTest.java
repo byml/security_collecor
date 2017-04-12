@@ -1,10 +1,10 @@
-package net.ibyml.collector.szse;
+package net.ibyml.security.collector.szse;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import net.ibyml.collector.szse.SzseZqhqCollector;
 import net.ibyml.common.http.client.GlobalSetting;
+import net.ibyml.security.collector.szse.SzseZqhqCollector;
 
 public class SzseZqhqCollectorTest {
 	@Before

@@ -1,4 +1,4 @@
-package net.ibyml.collector.szse;
+package net.ibyml.security.collector.szse;
 
 import java.net.URISyntaxException;
 

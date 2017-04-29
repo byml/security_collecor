@@ -15,11 +15,11 @@ public class SimpleFileDownloaderTest {
 	}
 
 	@Test
-	// ÏÂÔØÉÏ½»ËùA¹É¹ÉÆ±ÁĞ±í
+	// ä¸‹è½½ä¸Šäº¤æ‰€Aè‚¡è‚¡ç¥¨åˆ—è¡¨
 	public void downloadSseStockList() throws URISyntaxException {
 		FileDownloadSetting setting = new SimpleFileDownloadSetting(
 				"http://query.sse.com.cn/security/stock/downloadStockListFile.do?csrcCode=&stockCode=&areaName=&stockType=1",
-				"½»Ò×Æ·ÖÖ", "ÉÏº£A¹É");
+				"äº¤æ˜“å“ç§", "ä¸Šæµ·Aè‚¡");
 
 		HttpRequestProcessor requestProcessor = new HttpRequestProcessor() {
 			public void process(HttpRequestBase httpRequest) {
@@ -31,31 +31,31 @@ public class SimpleFileDownloaderTest {
 	}
 
 	@Test
-	// ÏÂÔØÉî½»Ëù¹ÉÆ±ÁĞ±í
+	// ä¸‹è½½æ·±äº¤æ‰€è‚¡ç¥¨åˆ—è¡¨
 	public void downloadSzseStockList() throws URISyntaxException {
 		FileDownloadSetting setting = new SimpleFileDownloadSetting(
 				"http://www.szse.cn/szseWeb/ShowReport.szse?SHOWTYPE=xlsx&CATALOGID=1110&tab1PAGENO=1&ENCODE=1&TABKEY=tab1",
-				"½»Ò×Æ·ÖÖ", "ÉîÛÚA¹É");
+				"äº¤æ˜“å“ç§", "æ·±åœ³Aè‚¡");
 		new SimpleFileDownloader(setting).download();
 	}
 
 	@Test
-	// ÏÂÔØÉî½»Ëù¿É×ªÕ®ÁĞ±í
+	// ä¸‹è½½æ·±äº¤æ‰€å¯è½¬å€ºåˆ—è¡¨
 	public void downloadSzseKzz() throws URISyntaxException {
 		FileDownloadSetting setting = new SimpleFileDownloadSetting(
-				"http://www.szse.cn/szseWeb/ShowReport.szse?SHOWTYPE=xlsx&CATALOGID=1277&ENCODE=1&TABKEY=tab1", "½»Ò×Æ·ÖÖ",
-				"ÉîÛÚ¿É×ªÕ®");
+				"http://www.szse.cn/szseWeb/ShowReport.szse?SHOWTYPE=xlsx&CATALOGID=1277&ENCODE=1&TABKEY=tab1", "äº¤æ˜“å“ç§",
+				"æ·±åœ³å¯è½¬å€º");
 		new SimpleFileDownloader(setting).download();
 	}
 
 	@Test
-	// ÏÂÔØÉî½»Ëù¹ÉÆ±ÀúÊ·ĞĞÇé
+	// ä¸‹è½½æ·±äº¤æ‰€è‚¡ç¥¨å†å²è¡Œæƒ…
 	public void downloadSzseZqhqHistory() throws URISyntaxException {
 		SzseZqhqHistoryProcessor uriBuilderProcessor = new SzseZqhqHistoryProcessor("2017-04-05",
 				"2017-04-07");
 		FileDownloadSetting setting = new SimpleFileDownloadSetting(
 				"http://www.szse.cn/szseWeb/ShowReport.szse?SHOWTYPE=xlsx&CATALOGID=1815_stock&ENCODE=1&TABKEY=tab1",
-				"ĞĞÇé/ÉîÛÚ", uriBuilderProcessor.getTxtDateRange());
+				"è¡Œæƒ…/æ·±åœ³", uriBuilderProcessor.getTxtDateRange());
 		new SimpleFileDownloader(setting, uriBuilderProcessor, null).download();
 
 	}

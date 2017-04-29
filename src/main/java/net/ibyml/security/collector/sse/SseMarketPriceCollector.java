@@ -65,7 +65,7 @@ public class SseMarketPriceCollector {
 				Sheet sheet = wb.createSheet("new sheet");
 				Row firstRow = sheet.createRow(0);
 
-				String[] keyArray = { "Ö¤È¯´úÂë", "Ö¤È¯¼ò³Æ", "×îĞÂ", "¿ªÅÌ", "×î¸ß", "×îµÍ", "Ç°ÊÕ", "ÕÇµø·ù", "³É½»Á¿", "³É½»¶î", "ÕÇµø", "Õñ·ù",
+				String[] keyArray = { "è¯åˆ¸ä»£ç ", "è¯åˆ¸ç®€ç§°", "æœ€æ–°", "å¼€ç›˜", "æœ€é«˜", "æœ€ä½", "å‰æ”¶", "æ¶¨è·Œå¹…", "æˆäº¤é‡", "æˆäº¤é¢", "æ¶¨è·Œ", "æŒ¯å¹…",
 						"tradephase" };
 				for (int i = 0; i < keyArray.length; i++) {
 					firstRow.createCell(i).setCellValue(keyArray[i]);
